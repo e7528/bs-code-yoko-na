@@ -1,0 +1,77 @@
+// Function to delete a node from a linked list based on the provided item ID
+
+//delete function
+void DeleteNode(ItemNode*& tail, ItemNode*& head)
+{
+    // Temporary variable to store the input ID for deletion
+
+    //store the id being searched for deletion
+    int wtf = 0;
+
+    //traverses the id, ex, 1 > 2 > 3 > 4 etc...
+    ItemNode* curr = nullptr, *prevCurr = nullptr;
+
+    // Counter for numbering the items in the list for display
+    int counter = 1;
+
+    // Check if the list is empty (head is null)
+    if (head == nullptr)
+    {
+        cout << "There is no item on storage!\n\n";  // Inform the user that the list is empty
+        system("pause");  // Pause to let the user see the message
+        system("cls");    // Clear the console screen
+        return;  // Exit the function as there are no items to delete
+    }
+
+    // Set the current pointer to the head of the list to start traversing
+    curr = head;
+
+    // Print the list of items (nodes) with their information (name, ID, price)
+
+    //show the list/items
+    while (curr) {
+        cout << counter << ". " << curr->data.name << " | ID: " << curr->data.id
+            << " | Price: " << curr->data.price << endl;
+
+        curr = curr->next;  // Move to the next node in the list
+        counter++;  // Increment the counter to number the items
+    }
+
+    // Prompt the user to input the ID of the item they wish to delete
+    cout << "Input ID to delete: ";
+    cin >> wtf;  // Read the user input (the ID of the item to delete)
+
+    // Start traversing the list again to find the node with the given ID
+    curr = head;
+
+    do {
+        // Check if the current node has the matching ID
+        if (curr->data.id == wtf) {
+            // Case 1: If the node to delete is the head of the list
+            if (curr == head) {
+                head = head->next;  // Move the head pointer to the next node
+                delete curr;  // Delete the old head node
+            }
+            // Case 2: If the node to delete is the tail of the list
+            else if (curr == tail) {
+                tail = prevCurr;  // Move the tail pointer to the previous node
+                prevCurr->next = nullptr;  // Set the next pointer of the previous node to null (end of list)
+                delete curr;  // Delete the old tail node
+            }
+            // Case 3: If the node to delete is in the middle of the list
+            else {
+                prevCurr->next = curr->next;  // Bypass the current node and link the previous node to the next node
+                delete curr;  // Delete the current node
+            }
+
+            return;  // Exit the function after deleting the node
+        }
+        else {
+            // Move to the next node in the list
+            prevCurr = curr;
+            curr = curr->next;
+        }
+    } while (curr != nullptr);  // Continue the loop until the end of the list
+}
+
+
